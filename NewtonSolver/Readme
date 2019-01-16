@@ -1,0 +1,13 @@
+程序运行需要 numpy/scipy/sympy 
+
+Test.py 调试程序
+NewtonSlover.py 包含1个功能函数，1个线搜索函数，5个牛顿求解器
+TestFunction.py 包含3个测试函数的函数、导数和Hessian矩阵
+
+有5个参数可以调节，D_num和E_num是工程参数，分别对应后两个函数的阶数n
+
+线搜索参数：初始步长alpha0，最小步长alpha_min，超参数rho
+
+其中整个程序最棘手的地方在于 Powell函数非凸，因此阻尼牛顿法不能对任意线搜索参数保证收敛，阻尼牛顿法求解Powell对rho比较敏感，不恰当的rho容易使得求解无法收敛。而alpha0和alpha_min在这个情况下只对求解速度有影响。
+
+另一方面，运用DFP和BFGS求解Powell，由于Powell有1e4的病态主导向，初始几步Hessian极大，因此需要令alpha_min比较小（实测大约需要1e-5左右），否则会溢出，无法收敛。
